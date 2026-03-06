@@ -1,0 +1,2 @@
+# vote-page
+vote
