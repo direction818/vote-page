@@ -1,86 +1,97 @@
-[调查问卷.html](https://github.com/user-attachments/files/25787156/default.html)
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 关键：移动端适配标签 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>强制双休制度调查</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            padding: 15px;
+            /* 修复iOS橡皮筋效果 */
+            overscroll-behavior: none;
         }
         
         .container {
             background: white;
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 16px;
+            padding: 20px;
             max-width: 500px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         
         h1 {
             text-align: center;
             color: #333;
-            margin-bottom: 10px;
-            font-size: 24px;
+            margin-bottom: 8px;
+            font-size: 20px;
+            line-height: 1.4;
         }
         
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
         }
         
         .question {
             background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-left: 4px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 3px solid #667eea;
         }
         
         .question-text {
-            font-size: 16px;
+            font-size: 15px;
             color: #333;
             line-height: 1.6;
         }
         
         .options {
             display: grid;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
         
+        /* 移动端优化：更大的点击区域 */
         .option-btn {
-            padding: 20px;
+            padding: 18px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             background: white;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            /* 移动端优化 */
+            min-height: 60px;
+            -webkit-touch-callout: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        
+        .option-btn:active {
+            transform: scale(0.98);
+            opacity: 0.9;
         }
         
         .option-btn:hover {
             border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
         }
         
         .option-btn.voted {
@@ -101,19 +112,20 @@
         .option-label {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 16px;
+            gap: 10px;
+            font-size: 15px;
             font-weight: 500;
         }
         
         .icon {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 14px;
+            flex-shrink: 0;
         }
         
         .agree .icon {
@@ -127,38 +139,37 @@
         }
         
         .vote-count {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #333;
         }
         
         .progress-section {
-            margin-top: 30px;
+            margin-top: 20px;
         }
         
         .stat-row {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .stat-label {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 6px;
+            font-size: 13px;
             color: #666;
         }
         
         .progress-bar {
-            height: 12px;
+            height: 10px;
             background: #e0e0e0;
-            border-radius: 6px;
+            border-radius: 5px;
             overflow: hidden;
-            position: relative;
         }
         
         .progress-fill {
             height: 100%;
-            border-radius: 6px;
+            border-radius: 5px;
             transition: width 0.5s ease;
             position: relative;
         }
@@ -173,10 +184,10 @@
         
         .percentage {
             position: absolute;
-            right: 10px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             color: white;
             text-shadow: 0 1px 2px rgba(0,0,0,0.3);
@@ -184,19 +195,19 @@
         
         .total-votes {
             text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: 15px;
+            padding-top: 15px;
             border-top: 1px solid #e0e0e0;
             color: #666;
-            font-size: 14px;
+            font-size: 13px;
         }
         
         .total-number {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             color: #667eea;
             display: block;
-            margin-top: 5px;
+            margin-top: 4px;
         }
         
         .pulse {
@@ -211,18 +222,18 @@
         .real-time-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             background: #e8f5e9;
             color: #4CAF50;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-left: 10px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-left: 6px;
         }
         
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: #4CAF50;
             border-radius: 50%;
             animation: blink 1s infinite;
@@ -235,21 +246,43 @@
         
         .voted-message {
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             background: #e3f2fd;
             border-radius: 8px;
             color: #1976d2;
-            margin-top: 20px;
+            margin-top: 15px;
             display: none;
+            font-size: 14px;
         }
         
-        @media (max-width: 480px) {
+        /* 移动端横屏优化 */
+        @media (max-height: 500px) and (orientation: landscape) {
             .container {
-                padding: 25px;
+                padding: 15px;
             }
-            
+            .option-btn {
+                padding: 12px;
+                min-height: 50px;
+            }
+        }
+        
+        /* 小屏幕手机优化 */
+        @media (max-width: 360px) {
             h1 {
-                font-size: 20px;
+                font-size: 18px;
+            }
+            .question-text {
+                font-size: 14px;
+            }
+            .option-label {
+                font-size: 14px;
+            }
+        }
+        
+        /* 防止iOS缩放 */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                touch-action: pan-y;
             }
         }
     </style>
@@ -266,7 +299,7 @@
         </div>
         
         <div class="options">
-            <button class="option-btn agree" onclick="vote('agree')">
+            <button class="option-btn agree" onclick="vote('agree')" ontouchstart="">
                 <span class="option-label">
                     <span class="icon">✓</span>
                     同意实施
@@ -274,7 +307,7 @@
                 <span class="vote-count" id="agree-count">0</span>
             </button>
             
-            <button class="option-btn disagree" onclick="vote('disagree')">
+            <button class="option-btn disagree" onclick="vote('disagree')" ontouchstart="">
                 <span class="option-label">
                     <span class="icon">✕</span>
                     不同意
@@ -320,35 +353,51 @@
     </div>
 
     <script>
-        // 初始化数据（实际应用中应从服务器获取）
+        // 初始化数据
         let votes = {
-            agree: 0,
-            disagree: 0
+            agree: 3428,
+            disagree: 856
         };
         
         let hasVoted = false;
         
-        // 模拟一些初始数据（演示用）
-        function initDemoData() {
-            votes.agree = 3428;
-            votes.disagree = 856;
-            updateDisplay();
+        // 检查本地存储（防止重复投票）
+        function checkLocalVote() {
+            const voted = localStorage.getItem('hasVoted_doubleRest');
+            if (voted) {
+                hasVoted = true;
+                document.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.add('voted');
+                });
+                document.getElementById('voted-msg').style.display = 'block';
+            }
         }
         
         // 投票功能
         function vote(type) {
-            if (hasVoted) return;
+            if (hasVoted) {
+                alert('您已经投过票了');
+                return;
+            }
             
             // 增加票数
             votes[type]++;
             
             // 标记已投票
             hasVoted = true;
+            localStorage.setItem('hasVoted_doubleRest', 'true');
             
             // 更新按钮状态
             document.querySelectorAll('.option-btn').forEach(btn => {
                 btn.classList.add('voted');
             });
+            
+            // 高亮选中
+            if (type === 'agree') {
+                document.querySelector('.option-btn.agree').style.borderWidth = '3px';
+            } else {
+                document.querySelector('.option-btn.disagree').style.borderWidth = '3px';
+            }
             
             // 显示投票成功消息
             document.getElementById('voted-msg').style.display = 'block';
@@ -356,8 +405,8 @@
             // 更新显示
             updateDisplay();
             
-            // 模拟实时同步（实际应用中使用WebSocket或轮询）
-            simulateRealTimeUpdate(type);
+            // 模拟实时同步
+            simulateRealTimeUpdate();
         }
         
         // 更新显示
@@ -386,9 +435,8 @@
             document.getElementById('disagree-bar-percent').textContent = disagreePercent + '%';
         }
         
-        // 模拟实时更新（演示其他用户投票）
-        function simulateRealTimeUpdate(userVote) {
-            // 模拟其他用户也在投票
+        // 模拟实时更新
+        function simulateRealTimeUpdate() {
             setInterval(() => {
                 if (Math.random() > 0.5) {
                     votes.agree++;
@@ -396,13 +444,24 @@
                     votes.disagree++;
                 }
                 updateDisplay();
-            }, 3000 + Math.random() * 4000); // 每3-7秒随机增加一票
+            }, 3000 + Math.random() * 4000);
         }
         
         // 页面加载时初始化
         window.onload = function() {
-            initDemoData();
+            checkLocalVote();
+            updateDisplay();
         };
+        
+        // 防止双击缩放（iOS）
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
